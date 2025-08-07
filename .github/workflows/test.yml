@@ -1,0 +1,29 @@
+# Repo A: .github/workflows/trigger-infra.yml
+name: Trigger Infra Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo A
+        uses: actions/checkout@v3
+
+      - name: Encode config.yml
+        id: encode
+        run: |
+          base64 config.yml > encoded.txt
+          echo "config64=$(cat encoded.txt)" >> $GITHUB_OUTPUT
+
+      - name: Call reusable workflow in Repo B
+        uses: your-org-or-user/repo-b/.github/workflows/infra.yml@main
+        with:
+          config_base64: ${{ steps.encode.outputs.config64 }}
+
+      - name: Print result
+        run: echo "Terraform result was: ${{ steps.call-workflow.outputs.result }}"
