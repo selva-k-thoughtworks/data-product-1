@@ -26,10 +26,3 @@ jobs:
     with:
       config_base64: ${{ needs.encode-config.outputs.config64 }}
     secrets: inherit
-
-  print-result:
-    needs: call-workflow
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print result
-        run: echo "Terraform result was: ${{ needs.call-workflow.outputs.result }}"
