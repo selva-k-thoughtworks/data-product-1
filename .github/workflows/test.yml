@@ -21,6 +21,7 @@ jobs:
           echo "config64=$(cat encoded.txt)" >> $GITHUB_OUTPUT
 
       - name: Call reusable workflow in Repo B
+        id: call-workflow
         uses: selva-k-thoughtworks/self-infra-sample/.github/workflows/triggered-deploy.yml@main
         with:
           config_base64: ${{ steps.encode.outputs.config64 }}
