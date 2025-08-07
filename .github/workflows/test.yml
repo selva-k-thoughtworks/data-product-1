@@ -14,14 +14,14 @@ jobs:
       - name: Checkout Repo A
         uses: actions/checkout@v3
 
-      - name: Encode config.yml
+      - name: Encode config.yaml
         id: encode
         run: |
-          base64 config.yml > encoded.txt
+          base64 config.yaml > encoded.txt
           echo "config64=$(cat encoded.txt)" >> $GITHUB_OUTPUT
 
       - name: Call reusable workflow in Repo B
-        uses: your-org-or-user/repo-b/.github/workflows/infra.yml@main
+        uses: selva-k-thoughtworks/self-infra-sample/.github/workflows/triggered-deploy.yml@main
         with:
           config_base64: ${{ steps.encode.outputs.config64 }}
 
