@@ -1,4 +1,3 @@
-# Repo A: .github/workflows/trigger-infra.yml
 name: Trigger Infra Deployment
 
 on:
@@ -7,9 +6,10 @@ on:
       - main
 
 jobs:
-  trigger:
+  encode-config:
     runs-on: ubuntu-latest
-
+    outputs:
+      config64: ${{ steps.encode.outputs.config64 }}
     steps:
       - name: Checkout Repo A
         uses: actions/checkout@v3
@@ -20,11 +20,18 @@ jobs:
           base64 config.yaml > encoded.txt
           echo "config64=$(cat encoded.txt)" >> $GITHUB_OUTPUT
 
-      - name: Call reusable workflow in Repo B
-        id: call-workflow
-        uses: selva-k-thoughtworks/self-infra-sample/.github/workflows/triggered-deploy.yml@main
-        with:
-          config_base64: ${{ steps.encode.outputs.config64 }}
+  call-workflow:
+    needs: encode-config
+    uses: selva-k-thoughtworks/self-infra-sample/.github/workflows/triggered-deploy.yml@main
+    with:
+      config_base64: ${{ needs.encode-config.outputs.config64 }}
+    secrets: inherit
+    outputs:
+      result: ${{ steps.set-result.outputs.result }}  # this must be set inside Repo B's workflow
 
+  print-result:
+    needs: call-workflow
+    runs-on: ubuntu-latest
+    steps:
       - name: Print result
-        run: echo "Terraform result was: ${{ steps.call-workflow.outputs.result }}"
+        run: echo "Terraform result was: ${{ needs.call-workflow.outputs.result }}"
