@@ -26,8 +26,6 @@ jobs:
     with:
       config_base64: ${{ needs.encode-config.outputs.config64 }}
     secrets: inherit
-    outputs:
-      result: ${{ steps.set-result.outputs.result }}  # this must be set inside Repo B's workflow
 
   print-result:
     needs: call-workflow
