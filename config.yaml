@@ -8,3 +8,6 @@ buckets:
   prefix: selva-data
   iam_role_name: writer-role-data
   write_prefix: FOOBAR/data/
+- name: data-1  
+  iam_role_name: writer-role-data-1
+  write_prefix: FOOBAR/data-1/
