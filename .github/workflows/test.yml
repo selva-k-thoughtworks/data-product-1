@@ -18,7 +18,7 @@ jobs:
         id: encode
         run: |
           base64 config.yaml > encoded.txt
-          echo "config64=$(cat encoded.txt)" >> $GITHUB_OUTPUT
+          echo "config64=$(base64 -w 0 config.yaml)" >> $GITHUB_OUTPUT
 
   call-workflow:
     needs: encode-config
