@@ -1,1 +1,6 @@
 project: selva-project-1
+buckets:
+- name: logs-22
+  iam_role_name: writer-role-logs-22
+  write_prefix: FOOBAR/logs-22/
+  prefix: selva-logs-22
