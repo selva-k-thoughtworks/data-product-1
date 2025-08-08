@@ -1,6 +1,6 @@
 project: selva-project-1
 buckets:
-- name: logs-21
-  iam_role_name: writer-role-logs-21
-  write_prefix: FOOBAR/logs-21/
-  prefix: selva-logs-21
+- name: logs-22
+  iam_role_name: writer-role-logs-22
+  write_prefix: FOOBAR/logs-22/
+  prefix: selva-logs-22
