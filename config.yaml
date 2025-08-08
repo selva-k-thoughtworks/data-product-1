@@ -4,5 +4,7 @@ buckets:
   iam_role_name: writer-role-logs-3
   write_prefix: FOOBAR/logs-3/
   prefix: selva-logs-3
-- naMe: testing
-  test: 1234
+- name: logs-4
+  iam_role_name: writer-role-logs-4
+  write_prefix: FOOBAR/logs-4/
+  prefix: selva-logs-4
