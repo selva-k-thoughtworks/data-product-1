@@ -22,7 +22,7 @@ jobs:
 
   call-workflow:
     needs: encode-config
-    uses: selva-k-thoughtworks/self-infra-sample/.github/workflows/triggered-deploy.yml@main
+    uses: selva-k-thoughtworks/constructor/.github/workflows/triggered-deploy.yml@main
     with:
       config_yaml: ${{ needs.encode-config.outputs.config64 }}
     secrets: inherit
