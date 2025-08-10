@@ -8,30 +8,21 @@ on:
 jobs:
   encode-config:
     runs-on: ubuntu-latest
+    outputs:
+      config64: ${{ steps.encode.outputs.config64 }}
     steps:
-    - uses: selva-k-thoughtworks/self-infra-sample@main
-      with:
-        config_yaml: config.yaml
-    # outputs:
-    #   config64: ${{ steps.encode.outputs.config64 }}
-    # steps:
-    #   - name: Checkout Repo A
-    #     uses: actions/checkout@v3
+      - name: Checkout Repo A
+        uses: actions/checkout@v3
 
-    #   - name: Encode config.yaml
-    #     id: encode
-    #     run: |
-    #       base64 config.yaml > encoded.txt
-    #       echo "config64=$(base64 -w 0 config.yaml)" >> $GITHUB_OUTPUT
-      
-    #   - name: Trigger the action
-    #     uses: selva-k-thoughtworks/self-infra-sample@main
-    #     with:
-    #       config_yaml: ${{ steps.encode.outputs.config64 }}
+      - name: Encode config.yaml
+        id: encode
+        run: |
+          base64 config.yaml > encoded.txt
+          echo "config64=$(base64 -w 0 config.yaml)" >> $GITHUB_OUTPUT
 
-  # call-workflow:
-  #   needs: encode-config
-  #   uses: selva-k-thoughtworks/constructor/.github/workflows/triggered-deploy.yml@main
-  #   with:
-  #     config_yaml: ${{ needs.encode-config.outputs.config64 }}
-  #   secrets: inherit
+  call-workflow:
+    needs: encode-config
+    uses: selva-k-thoughtworks/self-infra-sample/.github/workflows/triggered-deploy.yml@main
+    with:
+      config_yaml: ${{ needs.encode-config.outputs.config64 }}
+    secrets: inherit
