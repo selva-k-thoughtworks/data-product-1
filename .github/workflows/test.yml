@@ -7,11 +7,11 @@ on:
 
 jobs:
   encode-config:
-    #runs-on: ubuntu-latest
-    uses: selva-k-thoughtworks/self-infra-sample@main
-    with:
-      config_yaml: config.yaml
-    secrets: inherit
+    runs-on: ubuntu-latest
+    steps:
+    - uses: selva-k-thoughtworks/self-infra-sample@main
+      with:
+        config_yaml: config.yaml
     # outputs:
     #   config64: ${{ steps.encode.outputs.config64 }}
     # steps:
