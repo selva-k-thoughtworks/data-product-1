@@ -1,28 +1,11 @@
-name: Trigger Infra Deployment
-
 on:
   push:
     branches:
       - main
 
 jobs:
-  encode-config:
+  deploy:
     runs-on: ubuntu-latest
-    outputs:
-      config64: ${{ steps.encode.outputs.config64 }}
     steps:
-      - name: Checkout Repo A
-        uses: actions/checkout@v3
-
-      - name: Encode config.yaml
-        id: encode
-        run: |
-          base64 config.yaml > encoded.txt
-          echo "config64=$(base64 -w 0 config.yaml)" >> $GITHUB_OUTPUT
-
-  call-workflow:
-    needs: encode-config
-    uses: selva-k-thoughtworks/constructor/.github/workflows/triggered-deploy.yml@main
-    with:
-      config_yaml: ${{ needs.encode-config.outputs.config64 }}
-    secrets: inherit
+      - uses: actions/checkout@v4
+      - uses: selva-k-thoughtworks/constructor@main
